@@ -48,7 +48,3 @@ const Topbar = () => {
 };
 
 export default Topbar;
-
-function useSignOutAccount(): { mutate: any; isSuccess: any } {
-  throw new Error("Function not implemented.");
-}
