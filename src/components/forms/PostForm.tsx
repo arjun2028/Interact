@@ -139,17 +139,17 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
         <FormField
           control={form.control}
-          name="location"
+          name="tags"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-form_label">
-                Add Tags (Seperated by ',')
+                Add Tags (separated by comma " , ")
               </FormLabel>
               <FormControl>
                 <Input
+                  placeholder="Art, Expression, Learn"
                   type="text"
                   className="shad-input"
-                  placeholder="Art/Expressions/Trends"
                   {...field}
                 />
               </FormControl>
