@@ -9,6 +9,7 @@ import {
 import { useUserContext } from "@/context/AuthContext";
 import { record } from "zod";
 import { checkIsLiked } from "@/lib/utils";
+import { Loader } from "lucide-react";
 
 type PostActivityProps = {
   post: Models.Document;
@@ -21,8 +22,9 @@ const PostActivity: React.FC<PostActivityProps> = ({ post, userId }) => {
   const [likes, setLikes] = useState(likesList);
   const [isSaved, setIsSaved] = useState(false);
   const { mutate: likePost } = useLikePost();
-  const { mutate: savePost } = useSavePost();
-  const { mutate: deleteSavedPost } = useDeleteSavedPost();
+  const { mutate: savePost, isPending: isSavingPost } = useSavePost();
+  const { mutate: deleteSavedPost, isPending: isDeletingSaved } =
+    useDeleteSavedPost();
   const { data: currentUser } = useGetCurrentUser();
   const savedPostRecord = currentUser?.save?.find(
     (record: Models.Document) => record.post.$id === post.$id
@@ -82,14 +84,18 @@ const PostActivity: React.FC<PostActivityProps> = ({ post, userId }) => {
       </div>
 
       <div className="flex gap-2">
-        <img
-          src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
-          alt="share"
-          width={20}
-          height={20}
-          className="cursor-pointer"
-          onClick={(e) => handleSavePost(e)}
-        />
+        {isSavingPost || isDeletingSaved ? (
+          <Loader />
+        ) : (
+          <img
+            src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
+            alt="share"
+            width={20}
+            height={20}
+            className="cursor-pointer"
+            onClick={(e) => handleSavePost(e)}
+          />
+        )}
       </div>
     </div>
   );
